@@ -16,7 +16,7 @@ class Spele:
     def __str__(self):
         return f"{self.komanda1} vs {self.komanda2} - {self.datums} {self.laiks} ({self.rezultats1}:{self.rezultats2}) - {self.statuss}"
 
-#Ir iespējams iegūt IIHF spēļus grafiku lapas saturu
+#Ir iespējams iegūt IIHF spēļus grafiku lapas saturu; TODO: Mainīt gadus mainot X adrēsē "https://www.iihf.com/en/events/X/wm/schedule"
 adrese = "https://www.iihf.com/en/events/2025/wm/schedule"
 
 lapa = requests.get(adrese)
@@ -28,10 +28,10 @@ if lapa.status_code == 200:
     # TODO: Iegūt valstis sarakstu
 
     speles_lapa = []
-    lapa = []
+    # lapa = []
     for card in atradu_card:
         spele = Spele("", "", "", "", "", "", "")
-        list = []
+        # list = []
 
         #Iegūstam komandas nosaukumus
         komandas = card.find(class_="s-countries")
@@ -43,15 +43,15 @@ if lapa.status_code == 200:
         #print(komanda2)
         spele.komanda1 = komanda1
         spele.komanda2 = komanda2
-        list.append(komanda1)
-        list.append(komanda2)
+        # list.append(komanda1)
+        # list.append(komanda2)
 
         #Iegūstam spēles datumu
         datums = card.find(class_="s-date")
         #print(datums.prettify())
         datums = datums.get_text(strip=True)
         spele.datums = datums
-        list.append(datums)
+        # list.append(datums)
         #print(datums)
 
         #Iegūstam spēles laiku
@@ -59,7 +59,7 @@ if lapa.status_code == 200:
         #print(laiks.prettify())
         laiks = laiks.get_text(strip=True)
         spele.laiks = laiks
-        list.append(laiks)
+        # list.append(laiks)
         #print(laiks)
 
         #Iegūstam spēles rezultātu
@@ -71,8 +71,8 @@ if lapa.status_code == 200:
         rezultats2 = rezultats2.get_text(strip=True)
         spele.rezultats1 = rezultats1
         spele.rezultats2 = rezultats2
-        list.append(rezultats1)
-        list.append(rezultats2)
+        # list.append(rezultats1)
+        # list.append(rezultats2)
         #print(rezultats1)
         #print(rezultats2)
 
@@ -81,11 +81,11 @@ if lapa.status_code == 200:
         #print(statuss.prettify())
         statuss = statuss.find("span").get_text(strip=True)
         spele.statuss = statuss
-        list.append(statuss)
+        # list.append(statuss)
         #print(statuss)
         
         speles_lapa.append(spele)
-        lapa.append(list)
+        # lapa.append(list)
 
     # print()
     # for spele in speles_lapa:
@@ -106,20 +106,33 @@ if lapa.status_code == 200:
         print("5. Iziet")
         izvēle = input("Izvēlieties opciju: ")
         print()
+        count = 0
         if izvēle == "1":
             for spele in speles_lapa:
                 print(spele)
+                count += 1
+            if count <= 0:
+                print("Nav atrasts")
         elif izvēle == "2":
             for spele in speles_lapa:
                 if spele.statuss == "FINAL" or spele.statuss == "F(OT)" or spele.statuss == "F(SO)":
                     print(spele)
+                    count += 1
+            if count <= 0:
+                print("Nav atrasts")
         elif izvēle == "3":
             for spele in speles_lapa:
                 if spele.statuss == "LIVE":
-                    print(spele)
+                        print(spele)
+                        count += 1
+            if count <= 0:
+                print("Nav atrasts")
         elif izvēle == "4":
             for spele in speles_lapa:
                 if spele.statuss == "UPCOMING":
                     print(spele)
+                    count += 1
+            if count <= 0:
+                print("Nav atrasts")
         elif izvēle == "5":
             break
