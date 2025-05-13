@@ -123,8 +123,8 @@ if lapa.status_code == 200:
         elif izvēle == "3":
             for spele in speles_lapa:
                 if spele.statuss == "LIVE":
-                        print(spele)
-                        count += 1
+                    print(spele)
+                    count += 1
             if count <= 0:
                 print("Nav atrasts")
         elif izvēle == "4":
